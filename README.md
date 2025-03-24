@@ -38,4 +38,4 @@ It is an instance of `LswCycler` with a predefined set of methods, defined on it
 
 ## Conclusion
 
-This package is an internal dependency of `lsw` set of dependencies. You can take it as reference, and overwrite its defaults to fit your needs, or get inspiration on how to use `lsw-cycler`, which is the prototypal root of this artifact.
+This is a package used to pack some utilities. It is not used in the project right now.
