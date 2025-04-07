@@ -79,8 +79,7 @@
     },
     onLoadSchema: async function () {
       console.log("[trace][lsw-app-lifecycle] onLoadSchema");
-      const shouldResetDatabase = false;
-      if (shouldResetDatabase) {
+      if (process.env.LSW_RESET_DATABASE) {
         await LswDatabase.deleteDatabase("lsw_default_database");
       }
       $lswSchema.loadSchemaByProxies("SchemaEntity");
@@ -94,11 +93,29 @@
       console.log("[trace][lsw-app-lifecycle] onSchemaLoaded");
       return this.hooks.emit("app:schema_loaded");
     },
+    onSeedDatabase: async function () {
+      console.log("[trace][lsw-app-lifecycle] onSeedDatabase");
+      Fill_with_your_own_requirements: {
+        // @TOFILLIFNEEDED:
+      }
+      return await this.hooks.emit("app:seed_database");
+    },
+    onDatabaseSeeded: async function () {
+      console.log("[trace][lsw-app-lifecycle] onDatabaseSeeded");
+      Fill_with_your_own_requirements: {
+        // @TOFILLIFNEEDED:
+      }
+      return await this.hooks.emit("app:database_seeded");
+    },
     onLoadDatabase: async function () {
       console.log("[trace][lsw-app-lifecycle] onLoadDatabase");
       Load_database_connection: {
         Vue.prototype.$lsw.database = await LswDatabase.open("lsw_default_database");
         Vue.prototype.$lsw.database.setInnerSchema($lswSchema);
+      }
+      if(process.env.LSW_RESET_DATABASE) {
+        await this.onSeedDatabase();
+        await this.onDatabaseSeeded();
       }
       return await this.hooks.emit("app:load_database");
     },
